@@ -15,7 +15,7 @@ jobs:
       id-token: write
       actions: read   # For the entrypoint.
       packages: write
-    uses: AdamKorcz/java-slsa-generator/.github/workflows/trw.yml
+    uses: AdamKorcz/java-slsa-generator/.github/workflows/trw.yml@main
     with:
       name1: value1
       name2: value2
