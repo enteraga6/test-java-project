@@ -19,4 +19,4 @@ jobs:
     with:
       name1: value1
       name2: value2
-      private-repository: true
+      rekor-log-public: true
