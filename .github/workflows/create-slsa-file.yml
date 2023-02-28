@@ -15,7 +15,3 @@ jobs:
       actions: read   # For the entrypoint.
       packages: write
     uses: AdamKorcz/java-slsa-generator/.github/workflows/create-slsa-file.yml@main
-    with:
-      name1: value1
-      name2: value2
-      rekor-log-public: true
