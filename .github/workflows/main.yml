@@ -19,4 +19,4 @@ jobs:
     with:
       rekor-log-public: true
       artifact-list: |
-        ./gs-maven-PROJECT_VERSION.jar
+        ./target/gs-maven-PROJECT_VERSION.jar
