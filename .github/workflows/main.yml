@@ -17,6 +17,6 @@ jobs:
       packages: write
     uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven-builder
     with:
-      name1: value1
-      name2: value2
       rekor-log-public: true
+      artifact-list: |
+        ./gs-maven-PROJECT_VERSION.jar
