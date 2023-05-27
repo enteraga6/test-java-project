@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.adamkorcz</groupId>
-    <artifactId>gs-maven</artifactId>
+    <artifactId>test-java-project</artifactId>
     <packaging>jar</packaging>
     <version>0.1.0</version>
 
