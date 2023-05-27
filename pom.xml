@@ -5,7 +5,6 @@
 
     <groupId>io.github.adamkorcz</groupId>
     <artifactId>test-java-project</artifactId>
-    <packaging>jar</packaging>
     <version>0.1.0</version>
 
     <properties>
