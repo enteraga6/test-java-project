@@ -41,9 +41,9 @@
     </developers>
     
     <scm>
-        <connection>scm:git:git://github.com/simpligility/ossrh-demo.git</connection>
-        <developerConnection>scm:git:ssh://github.com:simpligility/ossrh-demo.git</developerConnection>
-        <url>http://github.com/simpligility/ossrh-demo/tree/master</url>
+        <connection>scm:git:git://github.com/adamkorcz/test-java-project.git</connection>
+        <developerConnection>scm:git:ssh://github.com:simpligility/test-java-project.git</developerConnection>
+        <url>http://github.com/adamkorcz/test-java-project/tree/main</url>
     </scm>
 
     <build>
