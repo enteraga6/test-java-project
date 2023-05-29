@@ -8,7 +8,7 @@
     </server>
     <server>
       <id>gpg.passphrase</id>
-      <password>${env.GPG_PASSPHRASE}</password>
+      <password>${env.GPG_KEY_PASS}</password>
     </server>
   </servers>
 </settings>
