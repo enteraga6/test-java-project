@@ -7,6 +7,10 @@
     <artifactId>test-java-project</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
+    
+    <name>Adams test java project</name>
+    <description>A test java project.</description>
+    <url>https://github.com/AdamKorcz/test-java-project</url>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
