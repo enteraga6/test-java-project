@@ -37,7 +37,7 @@ jobs:
             -DrepositoryId=ossrh \
             -Dfile=testfile.txt \
             -DgeneratePom=false \
-            -Durl=http://localhost:8081/nexus/
+            -Durl=io.github.adamkorcz
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
