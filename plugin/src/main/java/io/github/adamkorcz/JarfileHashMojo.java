@@ -8,6 +8,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -19,8 +21,8 @@ import java.util.LinkedList;
 
 @Mojo(name = "hash-jarfile", defaultPhase = LifecyclePhase.PACKAGE)
 public class JarfileHashMojo extends AbstractMojo {
-    private final String jsonBase = "{\"version\": \"%VERSION%\", \"attestations\":[%ATTESTATIONS%]}";
-    private final String attestationTemplate = "{\"name\": \"%NAME%\",\"subjects\":[{\"name\": \"%NAME%\",\"digest\":{\"sha256\":\"%HASH%\"}}]}";
+    private final String jsonBase = "{\"version\": \"0.1.0\", \"attestations\":[%ATTESTATIONS%]}";
+    private final String attestationTemplate = "{\"name\": \"%NAME%.intoto\",\"subjects\":[{\"name\": \"%NAME%\",\"digest\":{\"sha256\":\"%HASH%\"}}]}";
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
@@ -46,11 +48,9 @@ public class JarfileHashMojo extends AbstractMojo {
                     attestations.append(attestation);
                 }
             }
-            String json = jsonBase.replaceAll("%VERSION%", project.getVersion());
-            json = json.replaceAll("%ATTESTATIONS%", attestations.toString());
+            String json = jsonBase.replaceAll("%ATTESTATIONS%", attestations.toString());
 
-            Files.write(outputJson.toPath(), json.getBytes());
-            getLog().info(json);
+            Files.write(outputJson.toPath(), new JSONObject(json).toString(4).getBytes());
         } catch (IOException | NoSuchAlgorithmException e) {
             throw new MojoFailureException("Fail to generate hash for the jar files", e);
         }
