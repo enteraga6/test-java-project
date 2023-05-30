@@ -28,3 +28,13 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Publish extra file
+        run: echo "testfile" > testfile.txt && mvn deploy:deploy-file \
+            -DgroupId=io.github.adamkorcz \
+            -DartifactId=test-java-project \ 
+            -Dversion=0.1.1 \
+            -DgeneratePom=false \
+            -DrepositoryId=ossrh \
+            -Dfile=testfile.txt \
+            -DgeneratePom=false \
+            -Durl=https://s01.oss.sonatype.org/
