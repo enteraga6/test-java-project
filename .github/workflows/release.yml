@@ -30,7 +30,7 @@ jobs:
           GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
       - name: Publish extra file
         run: |
-            echo "testfile" > testfile && mvn deploy:deploy-file -Dfile=$(readlink -f testfile) -Dversion=0.1.1 -Dpackaging=txt -Durl=https://central.sonatype.com/artifact/io.github.adamkorcz/test-java-project -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -DgeneratePom=false -DrepositoryId=ossrh 
+            echo "testfile" > testfile && mvn deploy:deploy-file -Dfile=$(readlink -f testfile) -Dversion=0.1.1 -Dpackaging=jar -Durl=https://central.sonatype.com/artifact/io.github.adamkorcz/test-java-project -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -DgeneratePom=false -DrepositoryId=ossrh 
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
