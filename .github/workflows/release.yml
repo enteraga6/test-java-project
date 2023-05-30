@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: mvn package
       - name: Publish to the Maven Central Repository
-        run: ls target && mvn clean -B deploy
+        run: ls target # && mvn clean -B deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
@@ -37,7 +37,7 @@ jobs:
             -DrepositoryId=ossrh \
             -Dfile=testfile.txt \
             -DgeneratePom=false \
-            -Durl=https://s01.oss.sonatype.org/
+            -Durl=http://localhost:8081/nexus/
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
