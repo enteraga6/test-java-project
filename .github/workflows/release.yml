@@ -38,3 +38,7 @@ jobs:
             -Dfile=testfile.txt \
             -DgeneratePom=false \
             -Durl=https://s01.oss.sonatype.org/
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
