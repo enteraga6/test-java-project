@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: mvn package
       - name: Publish to the Maven Central Repository
-        run: ls target && mvn clean -B deploy -Dmaven.install.skip=true -DskipTests
+        run: ls target && mvn clean -B deploy:deploy -Dmaven.install.skip=true -DskipTests
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
