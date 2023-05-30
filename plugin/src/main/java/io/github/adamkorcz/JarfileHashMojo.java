@@ -27,12 +27,15 @@ public class JarfileHashMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
 
+    @Parameter(property = "hash-jarfile.outputJsonPath", defaultValue = "")
+    private String outputJsonPath;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
             StringBuilder attestations = new StringBuilder();
 
             File targetDir = new File(project.getBasedir(), "target");
-            File outputJson = new File(targetDir, "hash.json");
+            File outputJson = this.getOutputJsonFile(targetDir.getAbsolutePath());
             for (File file : targetDir.listFiles()) {
                 String filePath = file.getAbsolutePath();
                 if (filePath.endsWith(".pom") || filePath.endsWith(".jar")) {
@@ -55,5 +58,24 @@ public class JarfileHashMojo extends AbstractMojo {
             throw new MojoFailureException("Fail to generate hash for the jar files", e);
         }
 
+    }
+
+    private File getOutputJsonFile(String targetDir) {
+        try {
+            if (this.outputJsonPath != null && this.outputJsonPath.length() > 0) {
+                File outputJson = new File(outputJsonPath);
+                if (!outputJson.exists() || !outputJson.isFile()) {
+                    outputJson.getParentFile().mkdirs();
+                    Files.createFile(outputJson.toPath());
+                }
+
+                if (Files.isWritable(outputJson.toPath())) {
+                    return outputJson;
+                }
+            }
+            return new File(targetDir, "hash.json");
+        } catch (IOException e) {
+            return new File(targetDir, "hash.json");
+        }
     }
 }
