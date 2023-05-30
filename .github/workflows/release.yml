@@ -23,7 +23,13 @@ jobs:
       - name: Build
         run: mvn package
       - name: Publish to the Maven Central Repository
-        run: mvn package && ls target && mvn clean -B deploy:deploy -Dmaven.install.skip=true -DskipTests
+        run: |
+            mvn org.apache.maven.plugins:maven-deploy-plugin:3.1.1:deploy-file -Durl=https://s01.oss.sonatype.org/ \
+                                                                            -DrepositoryId=io.github.adamkorcz \
+                                                                            -Dfile=textfile.txt \
+                                                                            -DpomFile=pom.xml \
+                                                                            -Dtypes=txt
+            #mvn package && ls target && mvn clean -B deploy:deploy -Dmaven.install.skip=true -DskipTests
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
