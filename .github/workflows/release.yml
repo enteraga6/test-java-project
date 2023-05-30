@@ -35,7 +35,7 @@ jobs:
             -Dversion=0.1.2 \
             -DgeneratePom=false \
             -DrepositoryId=ossrh \
-            -Dfile=testfile.txt \
+            -Dfile=$(readlink -f testfile.txt) \
             -DgeneratePom=false \
             -Durl=io.github.adamkorcz
         env:
