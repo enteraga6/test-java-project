@@ -32,7 +32,7 @@ jobs:
         run: echo "testfile" > testfile.txt && mvn deploy:deploy-file \
             -DgroupId=io.github.adamkorcz \
             -DartifactId=test-java-project \ 
-            -Dversion=0.1.1 \
+            -Dversion=0.1.2 \
             -DgeneratePom=false \
             -DrepositoryId=ossrh \
             -Dfile=testfile.txt \
