@@ -23,15 +23,15 @@ jobs:
       - name: Build
         run: mvn package
       - name: Publish to the Maven Central Repository
-        run: ls target # && mvn clean -B deploy
+        run: ls target && mvn clean -B deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
-      - name: Publish extra file
-        run: |
-            mvn clean install && echo "testfile" > testfile.txt && mvn deploy:deploy-file -Dfile=$(readlink -f testfile.txt) -DpomFile=pom.xml -Dversion=0.1.1 -Dpackaging=txt -Durl=https://central.sonatype.com/artifact/io.github.adamkorcz/test-java-project -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -DgeneratePom=false -DrepositoryId=ossrh 
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
+#      - name: Publish extra file
+#        run: |
+#            mvn clean install && echo "testfile" > testfile.txt && mvn deploy:deploy-file -Dfile=$(readlink -f testfile.txt) -DpomFile=pom.xml -Dversion=0.1.1 -Dpackaging=txt -Durl=https://central.sonatype.com/artifact/io.github.adamkorcz/test-java-project -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -DgeneratePom=false -DrepositoryId=ossrh 
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+#          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
