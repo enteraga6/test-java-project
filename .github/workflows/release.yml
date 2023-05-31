@@ -24,8 +24,8 @@ jobs:
         run: cd plugin && mvn clean install && cd .. && mvn package
       - name: Publish to the Maven Central Repository
         run: |
-            #mvn deploy
-            mvn clean deploy
+            mvn deploy jar:jar attach-artifact:attach-artifact
+            # mvn clean deploy
             #mvn org.apache.maven.plugins:maven-deploy-plugin:3.1.1:deploy-file -Durl=https://s01.oss.sonatype.org/ \
             #                                                                -DrepositoryId=io.github.adamkorcz \
             #                                                                -Dfile=textfile.txt \
