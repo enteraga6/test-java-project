@@ -167,7 +167,6 @@
                   <phase>package</phase>
                   <goals>
                      <goal>attach-artifact</goal>
-                     <goal>jar</goal>
                   </goals>
                   <configuration>
                      <artifacts>
