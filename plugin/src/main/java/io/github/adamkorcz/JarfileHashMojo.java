@@ -21,7 +21,7 @@ import java.util.LinkedList;
 
 @Mojo(name = "hash-jarfile", defaultPhase = LifecyclePhase.PACKAGE)
 public class JarfileHashMojo extends AbstractMojo {
-    private final String jsonBase = "{\"version\": \"0.1.0\", \"attestations\":[%ATTESTATIONS%]}";
+    private final String jsonBase = "{\"version\": \"1\", \"attestations\":[%ATTESTATIONS%]}";
     private final String attestationTemplate = "{\"name\": \"%NAME%.intoto\",\"subjects\":[{\"name\": \"%NAME%\",\"digest\":{\"sha256\":\"%HASH%\"}}]}";
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
