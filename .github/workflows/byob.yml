@@ -15,11 +15,3 @@ jobs:
       actions: read   # For the entrypoint.
       packages: write
     uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven2
-    with:
-      rekor-log-public: true
-      artifact-list: |
-        ./sigstore-java/build/local-maven-repo/dev/sigstore/sigstore-java/GRADLE_VERSION/sigstore-java-GRADLE_VERSION.module,
-        ./sigstore-java/build/libs/sigstore-java-GRADLE_VERSION.jar,
-        ./sigstore-java/build/local-maven-repo/dev/sigstore/sigstore-java/GRADLE_VERSION/sigstore-java-GRADLE_VERSION.pom,
-        ./sigstore-java/build/local-maven-repo/dev/sigstore/sigstore-java/GRADLE_VERSION/sigstore-java-GRADLE_VERSION-sources.jar,
-        ./sigstore-java/build/libs/sigstore-java-GRADLE_VERSION-javadoc.jar
