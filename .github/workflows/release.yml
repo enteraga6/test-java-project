@@ -21,7 +21,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_KEY_PASS
       - name: Build
-        run: mvn package
+        run: cd plugin && mvn clean install && cd .. && mvn package
       - name: Publish to the Maven Central Repository
         run: |
             mvn jar:jar deploy:deploy
