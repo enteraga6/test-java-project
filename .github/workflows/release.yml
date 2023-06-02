@@ -24,7 +24,10 @@ jobs:
         run: cd plugin && mvn clean install && cd .. && mvn package
       - name: Publish to the Maven Central Repository
         run: |
-            mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-0.1.11.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=arbitrary -Djavadoc=target/test-java-project-0.1.11-javadoc.jar -Dsources=target/test-java-project-0.1.11-sources.jar deploy:deploy-file
+            mvn validate jar:jar javadoc:jar source:jar gpg:sign -Dfile=target/test-java-project-0.1.11.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=arbitrary -Djavadoc=target/test-java-project-0.1.11-javadoc.jar -Dsources=target/test-java-project-0.1.11-sources.jar deploy:deploy-file
+            
+            # working without .asc files:
+            #mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-0.1.11.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=arbitrary -Djavadoc=target/test-java-project-0.1.11-javadoc.jar -Dsources=target/test-java-project-0.1.11-sources.jar deploy:deploy-file
             #curl -X POST -d @file.xml -u "${MAVEN_USERNAME}":"${MAVEN_PASSWORD}" -H "Content-Type:application/xml" -v https://s01.oss.sonatype.org/service/local/staging/profiles1/d4e0736eecc64/start
             #mvn validate jar:jar validate javadoc:jar validate source:jar build-helper:attach-artifact deploy:deploy
             #mvn release:prepare && mvn release:perform && ls target/checkout
