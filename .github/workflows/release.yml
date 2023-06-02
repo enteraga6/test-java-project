@@ -24,7 +24,10 @@ jobs:
         run: cd plugin && mvn clean install && cd .. && mvn package
       - name: Publish to the Maven Central Repository
         run: |
-            mvn -Daether.checksums.omitChecksumsForExtensions=.asc validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-0.1.12.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=textfile -Djavadoc=target/test-java-project-0.1.12-javadoc.jar -Dsources=target/test-java-project-0.1.12-sources.jar -DpomFile=pom.xml gpg:sign-and-deploy-file
+            VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args=‘${project.version}’ --non-recursive exec:exec); mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=textfile -Djavadoc=target/test-java-project-$VERSION.jar -Dsources=target/test-java-project-$VERSION-sources.jar -DpomFile=pom.xml gpg:sign-and-deploy-file
+            
+            # Works but with static version vars
+            #mvn -Daether.checksums.omitChecksumsForExtensions=.asc validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-0.1.12.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=textfile -Djavadoc=target/test-java-project-0.1.12-javadoc.jar -Dsources=target/test-java-project-0.1.12-sources.jar -DpomFile=pom.xml gpg:sign-and-deploy-file
             # Creates the .asc files but not entirely correctly.
             #mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-0.1.11.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=textfile -Djavadoc=target/test-java-project-0.1.11-javadoc.jar -Dsources=target/test-java-project-0.1.11-sources.jar -DpomFile=pom.xml gpg:sign-and-deploy-file
             # Creates the .asc files but not entirely correctly.
