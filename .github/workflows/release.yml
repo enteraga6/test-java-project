@@ -25,7 +25,7 @@ jobs:
       - name: Publish to the Maven Central Repository
         run: |
             #curl -X POST -d @file.xml -u "${MAVEN_USERNAME}":"${MAVEN_PASSWORD}" -H "Content-Type:application/xml" -v https://s01.oss.sonatype.org/service/local/staging/profiles1/d4e0736eecc64/start
-            mvn validate jar:jar deploy:deploy
+            mvn validate jar:jar validate javadoc:jar deploy:deploy
             #mvn release:prepare && mvn release:perform && ls target/checkout
             # mvn clean deploy
             #mvn org.apache.maven.plugins:maven-deploy-plugin:3.1.1:deploy-file -Durl=https://s01.oss.sonatype.org/ \
