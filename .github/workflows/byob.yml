@@ -35,7 +35,8 @@ jobs:
           gpg-passphrase: GPG_KEY_PASS
       - name: Publish to the Maven Central Repository
         run: |
-            VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout); mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=textfile -Djavadoc=target/test-java-project-$VERSION.jar -Dsources=target/test-java-project-$VERSION-sources.jar -DpomFile=pom.xml gpg:sign-and-deploy-file
+          ls
+          VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout); mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=textfile -Djavadoc=target/test-java-project-$VERSION.jar -Dsources=target/test-java-project-$VERSION-sources.jar -DpomFile=pom.xml gpg:sign-and-deploy-file
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
