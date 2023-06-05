@@ -43,6 +43,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: slsa-attestations
+          path: slsa-attestations
           
       - name: Publish to the Maven Central Repository
         run: |
