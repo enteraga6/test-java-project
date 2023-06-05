@@ -65,7 +65,7 @@ jobs:
             TYPES=$TYPES$TYPE,
             CLASSIFIERS=$CLASSIFIERS$CLASSIFIER,
           done
-          for name in $(ls -I slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore slsa-attestations/*.intoto.sigstore)
+          for name in $(ls -I slsa-attestations/*test-java-project-$VERSION.jar.intoto.sigstore slsa-attestations/*.intoto.sigstore)
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
             CLASSIFIER=${TARGET::-9}
