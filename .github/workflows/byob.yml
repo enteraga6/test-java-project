@@ -42,13 +42,14 @@ jobs:
       - name: Download the slsa attestation
         uses: actions/download-artifact@v3
         with:
-          name: my-slsa-attestation
+          name: slsa-attestations
           
       - name: Publish to the Maven Central Repository
         run: |
           ls ..
           ls
-          mv test-java-project-0.1.13.jar.intoto.sigstore textfile.txt
+          ls slsa-attestations
+          mv slsa-attestations/test-java-project-0.1.13.jar.intoto.sigstore textfile.txt
           cd plugin && mvn clean install && cd ..
           VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout); mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=textfile.txt -Dtypes=txt -Dclassifiers=textfile -Djavadoc=target/test-java-project-$VERSION.jar -Dsources=target/test-java-project-$VERSION-sources.jar -DpomFile=pom.xml gpg:sign-and-deploy-file
         env:
