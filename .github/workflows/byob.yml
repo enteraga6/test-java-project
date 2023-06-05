@@ -77,7 +77,7 @@ jobs:
           TYPES=${TYPES::-1}
           CLASSIFIERS=${CLASSIFIERS::-1}
           mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
-          mvn -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -Dversion=$VERSION -Dfile=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore -Dtype="jar.intoto.sigstore" -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh gpg:sign-and-deploy-file
+          mvn -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -Dversion=$VERSION -Dfile=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore -Dclassifier=bin -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh gpg:sign-and-deploy-file
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
