@@ -68,17 +68,14 @@ jobs:
           for name in $(ls slsa-attestations/*.intoto.sigstore)
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
-            CLASSIFIER=${TARGET::16}
+            CLASSIFIER=${TARGET::-16}
             FILES=$FILES$name,
-            TYPES=$TYPESintoto.sigstore,
+            TYPES=$TYPES"intoto.sigstore,"
             CLASSIFIERS=$CLASSIFIERS$CLASSIFIER,
           done
           FILES=${FILES::-1}
           TYPES=${TYPES::-1}
           CLASSIFIERS=${CLASSIFIERS::-1}
-          echo $FILES
-          echo $TYPES
-          echo $CLASSIFIERS
           mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
