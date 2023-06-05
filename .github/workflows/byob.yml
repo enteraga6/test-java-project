@@ -56,7 +56,7 @@ jobs:
           FILES=
           TYPES=
           CLASSIFIERS=
-          for name in $(ls -I target/test-java-project-$VERSION.jar target/*.jar)
+          for name in $(find ./ -name test-java-project-$VERSION-*.jar)
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
             TYPE=${TARGET##*.}
@@ -65,7 +65,7 @@ jobs:
             TYPES=$TYPES$TYPE,
             CLASSIFIERS=$CLASSIFIERS$CLASSIFIER,
           done
-          for name in $(ls -I slsa-attestations/*test-java-project-$VERSION.jar.intoto.sigstore slsa-attestations/*.intoto.sigstore)
+          for name in $(find ./ -name test-java-project-$VERSION-*.jar.intoto.sigstore)
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
             CLASSIFIER=${TARGET::-9}
