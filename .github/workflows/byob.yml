@@ -75,7 +75,7 @@ jobs:
           done
           FILES=${FILES::-1}
           TYPES=${TYPES::-1}
-          CLASSIFIERS=${CLASSIFIERS$::-1}
+          CLASSIFIERS=${CLASSIFIERS::-1}
           mvn validate jar:jar javadoc:jar source:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
