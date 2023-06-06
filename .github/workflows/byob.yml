@@ -78,10 +78,10 @@ jobs:
 #            FILES=$FILES,$name
 #            TYPES=$TYPES",sigstore"
 #            CLASSIFIERS=$CLASSIFIERS,${TARGET::-9}
-          done
-          # Sign and deploy the files to the ossrh remote repository
-          mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
+#          done
+#          # Sign and deploy the files to the ossrh remote repository
+#          mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+#          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
