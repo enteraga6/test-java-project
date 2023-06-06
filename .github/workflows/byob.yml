@@ -16,6 +16,7 @@ jobs:
       packages: write
     uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven2
   publish:
+    needs: usetrw
     permissions:
       contents: write
       id-token: write
