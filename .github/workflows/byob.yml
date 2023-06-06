@@ -77,7 +77,7 @@ jobs:
           TYPES=${TYPES::-1}
           CLASSIFIERS=${CLASSIFIERS::-1}
           mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
-          curl -v -u "${MAVEN_USERNAME}":"${MAVEN_PASSWORD}" --upload-file slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+          curl -X POST -d @slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore -u "${MAVEN_USERNAME}":"${MAVEN_PASSWORD}" -H "Content-Type:text/plain" -v https://s01.oss.sonatype.org/service/local/staging/profiles1/d4e0736eecc64/start
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
