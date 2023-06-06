@@ -59,25 +59,20 @@ jobs:
           for name in $(find ./ -name "test-java-project-$VERSION-*.jar")
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
-            TYPE=${TARGET##*.}
-            CLASSIFIER=${TARGET%.*}
             FILES=$FILES$name,
-            TYPES=$TYPES$TYPE,
-            CLASSIFIERS=$CLASSIFIERS$CLASSIFIER,
+            TYPES=$TYPES${TARGET##*.},
+            CLASSIFIERS=$CLASSIFIERS${TARGET%.*},
           done
           for name in $(find ./ -name "test-java-project-$VERSION-*.jar.intoto.sigstore")
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
-            CLASSIFIER=${TARGET::-9}
             FILES=$FILES$name,
             TYPES=$TYPES"sigstore,"
-            CLASSIFIERS=$CLASSIFIERS$CLASSIFIER,
+            CLASSIFIERS=$CLASSIFIERS${TARGET::-9},
           done
           FILES=${FILES::-1}
           TYPES=${TYPES::-1}
           CLASSIFIERS=${CLASSIFIERS::-1}
-          ls -R
-          curl -X POST -d @slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore -u "${MAVEN_USERNAME}":"${MAVEN_PASSWORD}" -H "Content-Type:text/plain" -v https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/io/github/adamkorcz/test-java-project/$VERSION/test-java-project-$VERSION.jar.intoto.sigstore
           mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
           mvn -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -Dversion=$VERSION -Dfile=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore -Dclassifier=jar.intoto -Dtype=sigstore -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh gpg:sign-and-deploy-file
         env:
