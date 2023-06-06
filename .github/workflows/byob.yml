@@ -53,7 +53,7 @@ jobs:
           cd plugin && mvn clean install && cd ..
           mvn javadoc:jar source:jar
           VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
-          FILES=slsa-attestations/test-java-project-"$VERSION.jar".intoto.sigstore,
+          FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore,
           TYPES=sigstore,
           CLASSIFIERS=jar.intoto,
           for name in $(find ./ -name test-java-project-$VERSION-*.jar)
@@ -61,17 +61,17 @@ jobs:
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
             TYPE=${TARGET##*.}
             CLASSIFIER=${TARGET%.*}
-            FILES=$FILES",$name"
-            TYPES=$TYPES",$TYPE"
-            CLASSIFIERS=$CLASSIFIERS",$CLASSIFIER"
+            FILES=$FILES,$name
+            TYPES=$TYPES,$TYPE
+            CLASSIFIERS=$CLASSIFIERS,$CLASSIFIER
           done
           for name in $(find ./ -name test-java-project-$VERSION-*.jar.intoto.sigstore)
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
             CLASSIFIER=${TARGET::-9}
-            FILES=$FILES",$name"
-            TYPES=$TYPES",sigstore"
-            CLASSIFIERS=$CLASSIFIERS",$CLASSIFIER"
+            FILES=$FILES,$name
+            TYPES=$TYPES,sigstore
+            CLASSIFIERS=$CLASSIFIERS,$CLASSIFIER
           done
           mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
         env:
