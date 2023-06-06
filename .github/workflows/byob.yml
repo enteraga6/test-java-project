@@ -16,8 +16,13 @@ jobs:
       packages: write
     uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven2
   publish:
+    permissions:
+      contents: write
+      id-token: write
+      actions: read   # For the entrypoint.
+      packages: write
     uses: AdamKorcz/slsa-github-generator/.github/workflows/publish_maven.yml@maven2
-    secrets:
+    with:
       maven-username: ${{ secrets.OSSRH_USERNAME }}
       maven-password: ${{ secrets.OSSRH_PASSWORD }}
       gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
