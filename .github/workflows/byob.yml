@@ -16,7 +16,7 @@ jobs:
       packages: write
     uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven2
   publish:
-    uses: AdamKorcz/slsa-github-generator/actions/maven/publish@maven2
+    uses: AdamKorcz/slsa-github-generator/.github/workflows/publish_maven.yml@maven2
     with:
       maven-username: ${{ secrets.OSSRH_USERNAME }}
       maven-password: ${{ secrets.OSSRH_PASSWORD }}
