@@ -53,7 +53,7 @@ jobs:
           cd plugin && mvn clean install && cd ..
           mvn javadoc:jar source:jar
           VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
-          FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore,
+          FILES=slsa-attestations/test-java-project-"$VERSION.jar".intoto.sigstore,
           TYPES=sigstore,
           CLASSIFIERS=jar.intoto,
           for name in $(find ./ -name test-java-project-$VERSION-*.jar)
