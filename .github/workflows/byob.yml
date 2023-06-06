@@ -17,7 +17,7 @@ jobs:
     uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven2
   publish:
     uses: AdamKorcz/slsa-github-generator/.github/workflows/publish_maven.yml@maven2
-    with:
+    secrets:
       maven-username: ${{ secrets.OSSRH_USERNAME }}
       maven-password: ${{ secrets.OSSRH_PASSWORD }}
       gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
