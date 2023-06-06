@@ -53,10 +53,10 @@ jobs:
           mvn javadoc:jar source:jar
           # Retrieve project version
           VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
-          # Reset the environment variables
+          # Reset the environment variables add in the base provenance
           FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore
-          TYPES=jar.intoto
-          CLASSIFIERS=sigstore
+          TYPES=sigstore
+          CLASSIFIERS=jar.intoto
           # Find all necessary built jar files and attach them to the enviornment variable deploy
           for name in $(find ./ -name "test-java-project-$VERSION-*.jar")
           do
