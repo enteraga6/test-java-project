@@ -23,11 +23,11 @@ jobs:
       actions: read   # For the entrypoint.
       packages: write
       uses: AdamKorcz/slsa-github-generator/.github/workflows/publish_maven.yml@maven2
-        with:
-          maven-username: ${{ secrets.OSSRH_USERNAME }}
-          maven-password: ${{ secrets.OSSRH_PASSWORD }}
-          gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+      with:
+        maven-username: ${{ secrets.OSSRH_USERNAME }}
+        maven-password: ${{ secrets.OSSRH_PASSWORD }}
+        gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
+        gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 #    needs: [usetrw]
 #    runs-on: ubuntu-latest
 #    permissions:
