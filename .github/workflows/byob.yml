@@ -47,15 +47,17 @@ jobs:
           
       - name: Publish to the Maven Central Repository
         run: |
-          ls ..
-          ls
-          ls slsa-attestations
+          # Build and run custom plugin
           cd plugin && mvn clean install && cd ..
+          # Re-indexing the secondary jar files for deploy
           mvn javadoc:jar source:jar
+          # Retrieve project version
           VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
+          # Reset the environment variables
           FILES=
           TYPES=
           CLASSIFIERS=
+          # Find all necessary built jar files and attach them to the enviornment variable deploy
           for name in $(find ./ -name "test-java-project-$VERSION-*.jar")
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
@@ -63,6 +65,7 @@ jobs:
             TYPES=$TYPES${TARGET##*.},
             CLASSIFIERS=$CLASSIFIERS${TARGET%.*},
           done
+          # Find all generated provenance files and attach them the the envionrment variable for deploy
           for name in $(find ./ -name "test-java-project-$VERSION-*.jar.intoto.sigstore")
           do
             TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
@@ -73,6 +76,7 @@ jobs:
           FILES=${FILES::-1}
           TYPES=${TYPES::-1}
           CLASSIFIERS=${CLASSIFIERS::-1}
+          # Sign and deploy the files to the ossrh remote repository
           mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassifiers=$CLASSIFIERS -DpomFile=pom.xml gpg:sign-and-deploy-file
           mvn -DgroupId=io.github.adamkorcz -DartifactId=test-java-project -Dversion=$VERSION -Dfile=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore -Dclassifier=jar.intoto -Dtype=sigstore -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh gpg:sign-and-deploy-file
         env:
