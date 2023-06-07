@@ -24,7 +24,7 @@ jobs:
       packages: write
     uses: AdamKorcz/slsa-github-generator/.github/workflows/publish_maven.yml@maven2
     with:
-      slsa-attestations-download-name: ${{ jobs.usetrw.outputs.attestations-download-name }}
+      slsa-attestations-download-name: "${{ needs.usetrw.outputs.attestations-download-name }}"
 #      maven-password: ${{ secrets.OSSRH_PASSWORD }}
 #      gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
 #      gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
