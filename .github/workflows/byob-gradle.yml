@@ -9,6 +9,10 @@ env:
   ISSUE_REPOSITORY: ${{ github.repository }}
 jobs:
   publish:
+    env:
+      MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
     permissions:
       contents: write
       id-token: write
@@ -70,7 +74,4 @@ jobs:
 #          done
 #          # Sign and deploy the files to the ossrh remote repository
 #          mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassi>
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
+
