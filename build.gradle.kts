@@ -77,6 +77,8 @@ publishing {
 }
 
 signing {
-    useInMemoryPgpKeys(gpg-private-key, gpg-passphrase)
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["maven"])
 }
