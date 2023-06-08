@@ -22,19 +22,7 @@ jobs:
       id-token: write
       actions: read   # For the entrypoint.
       packages: write
-    uses: AdamKorcz/slsa-github-generator/.github/workflows/publish_maven.yml@maven2
-    with:
-      slsa-attestations-download-name: "${{ needs.usetrw.outputs.attestations-download-name }}"
-    secrets:
-      maven-username: ${{ secrets.OSSRH_USERNAME }}
-      maven-password: ${{ secrets.OSSRH_PASSWORD }}
-      gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
-      gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-    needs: [usetrw]
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up Java for publishing to Maven Central Repository
@@ -86,7 +74,7 @@ jobs:
 #          done
 #          # Sign and deploy the files to the ossrh remote repository
 #          mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassi>
-#        env:
-#          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-#          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-#          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
