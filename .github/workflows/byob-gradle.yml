@@ -40,6 +40,17 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+      - name: Setup gpg signing key
+        if: env.ARTIFACT_SIGNING_KEY
+        id: gpg
+        env:
+          ARTIFACT_SIGNING_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          echo "Importing key ..."
+          echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
+          echo "Getting key id ..."
+          key_id="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
+          echo "::set-output name=key_id::${key_id}"
       - name: Publish to the Maven Central Repository
         run: |
           # Retrieve project version and artifact id
