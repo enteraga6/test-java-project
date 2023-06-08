@@ -45,7 +45,6 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
-          GPG_TTY: $(tty)
         run: |
           # Retrieve project version and artifact id
           VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
