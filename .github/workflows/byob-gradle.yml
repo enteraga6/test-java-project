@@ -29,17 +29,25 @@ jobs:
           gpg-passphrase: GPG_KEY_PASS
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
+      - name: Build and install custom jarfile hashing plugin
+        run : |
+          cd plugin-gradle && chmod +x gradlew && ./gradlew clean publish && cd ..
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
       - name: Publish to the Maven Central Repository
         run: |
-          # Build and run custom plugin
-          cd plugin-gradle && chmod +x gradlew && ./gradlew clean publish && cd ..
-          # Retrieve project version
+          # Retrieve project version and artifact id
           VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+          ARTIFACTID=$(./gradlew properties -q | grep "rootProject: " | cut -d\' -f2)
           echo $VERSION
+          echo $ARTIFACTID
+          # Temp creation of *.intoto.sigstore for .jar files
+          touch build/libs/$ARTIFACTID-$VERSION.jar.intoto.sigstore
+          touch build/libs/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
+          touch build/libs/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
+          # End of temp creation of *.intoto.sigstore for .jar files
 #          # Reset the environment variables add in the base provenance
 #          FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore
 #          TYPES=sigstore
