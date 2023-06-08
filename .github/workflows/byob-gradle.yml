@@ -13,6 +13,7 @@ jobs:
       MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
       GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_TTY: $(tty)
     permissions:
       contents: write
       id-token: write
