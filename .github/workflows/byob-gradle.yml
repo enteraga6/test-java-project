@@ -10,7 +10,7 @@ env:
 jobs:
   publish:
     env:
-      ORG_GRADLE_PROJECT_MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
       GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
     permissions:
@@ -52,6 +52,8 @@ jobs:
           touch build/libs/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
           touch build/libs/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
           # End of temp creation of *.intoto.sigstore for .jar files
+          # Run the gradle publish plugin
+          ./gradlew publish
 #          # Reset the environment variables add in the base provenance
 #          FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore
 #          TYPES=sigstore
