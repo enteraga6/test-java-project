@@ -4,8 +4,6 @@
 
 plugins {
     `java-library`
-    `java`
-    `maven`
     `maven-publish`
     `signing`
     id("jarfile-hash-plugin") version "0.0.1"
@@ -34,7 +32,7 @@ signing {
 
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
             versionMapping {
