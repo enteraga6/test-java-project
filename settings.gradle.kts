@@ -3,3 +3,10 @@
  */
 
 rootProject.name = "test-java-project"
+pluginManagement {
+    repositories {
+        maven {
+            url = uri("plugin-gradle/repo")
+        }
+    }
+}

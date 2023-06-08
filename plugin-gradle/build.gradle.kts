@@ -14,7 +14,7 @@ gradlePlugin {
     plugins {
         create("jarfileHashPlugin") {
             id = "jarfile-hash-plugin"
-            implementationClass = "io.github.adamkrocz.JarfileHashPluginPlugin"
+            implementationClass = "io.github.adamkrocz.JarfileHashPlugin"
         }
     }
 }
@@ -22,7 +22,7 @@ gradlePlugin {
 publishing {
     repositories {
         maven {
-            url = mavenLocal().url
+            url = uri("./repo")
         }
     }
 }

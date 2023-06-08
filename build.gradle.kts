@@ -5,6 +5,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    id("jarfile-hash-plugin") version "0.0.1"
 }
 
 repositories {
