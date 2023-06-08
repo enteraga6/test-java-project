@@ -12,6 +12,7 @@ jobs:
     env:
       MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
       MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      PROVENANCE: 'build/libs/slsa-attestations/*.intoto.sigstore'
       GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
       GPG_TTY: $(tty)
     permissions:
@@ -51,13 +52,10 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          PROVENANCE: 'build/libs/slsa-attestations/*.intoto.sigstore'
         run: |
           # Retrieve project version and artifact id
           VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
           ARTIFACTID=$(./gradlew properties -q | grep "rootProject: " | cut -d\' -f2)
-          echo $VERSION
-          echo $ARTIFACTID
           # Import GPG signing key
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
           GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
