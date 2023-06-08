@@ -77,6 +77,6 @@ publishing {
 }
 
 signing {
-    useInMemoryPgpKeys(signingKey, signingPassword)
+    useInMemoryPgpKeys(gpg-private-key, gpg-passphrase)
     sign(publishing.publications["maven"])
 }
