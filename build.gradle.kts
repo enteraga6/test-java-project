@@ -26,10 +26,6 @@ java {
     withJavadocJar()
 }
 
-signing {
-    sign(publishing.publications["maven"])
-}
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -78,4 +74,8 @@ publishing {
             url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
         }
     }
+}
+
+signing {
+    sign(publishing.publications["maven"])
 }
