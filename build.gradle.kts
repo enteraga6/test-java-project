@@ -31,6 +31,7 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
+            artifact (System.getenv("PROVENANCE"))
             versionMapping {
                 usage("java-api") {
                     fromResolutionOf("runtimeClasspath")
