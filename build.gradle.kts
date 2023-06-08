@@ -27,7 +27,43 @@ java {
 }
 
 publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'test-java-project'
+            from components.java
+            pom {
+                name = 'test-java-project'
+                description = 'Adams test java project'
+                url = 'https://github.com/AdamKorcz/test-java-project'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'adam-adalogics-com'
+                        name = 'Adam K'
+                        email = 'Adam@adalogics.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/adamkorcz/test-java-project.git'
+                    developerConnection = 'scm:git:ssh://github.com:simpligility/test-java-project.git'
+                    url = 'http://github.com/adamkorcz/test-java-project/tree/main'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username = "$MAVEN_USERNAME"
+                password = "$MAVEN_PASSWORD"
+            }
+            name = "test-java-project"
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+        }
     }
 }
