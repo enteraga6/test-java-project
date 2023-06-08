@@ -41,20 +41,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - name: Setup gpg signing key
-        if: env.GPG_PRIVATE_KEY
-        id: gpg
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-        run: |
-          echo "Importing key ..."
-          echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
-          echo "Getting key id ..."
-          key_id="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
-          echo "::set-output name=key_id::${key_id}"
       - name: Publish to the Maven Central Repository
         env:
-          GPG_KEYNAME: ${{ steps.gpg.outputs.key_id }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           # Retrieve project version and artifact id
@@ -67,6 +56,9 @@ jobs:
           touch build/libs/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
           touch build/libs/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
           # End of temp creation of *.intoto.sigstore for .jar files
+          # Import GPG signing key
+          echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
+          GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
           # Run the gradle publish plugin
           ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace 
 #          # Reset the environment variables add in the base provenance
