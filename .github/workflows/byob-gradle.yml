@@ -41,6 +41,12 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+      - name: Temp creation of *.intoto.sigstore for .jar files
+        run: |
+          mkdir -p build/libs/slsa-attestations
+          touch build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore
+          touch build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
+          touch build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
       - name: Publish to the Maven Central Repository
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -51,36 +57,8 @@ jobs:
           ARTIFACTID=$(./gradlew properties -q | grep "rootProject: " | cut -d\' -f2)
           echo $VERSION
           echo $ARTIFACTID
-          # Temp creation of *.intoto.sigstore for .jar files
-          touch build/libs/$ARTIFACTID-$VERSION.jar.intoto.sigstore
-          touch build/libs/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
-          touch build/libs/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
-          # End of temp creation of *.intoto.sigstore for .jar files
           # Import GPG signing key
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
           GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
           # Run the gradle publish plugin
-          ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace 
-#          # Reset the environment variables add in the base provenance
-#          FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore
-#          TYPES=sigstore
-#          CLASSIFIERS=jar.intoto
-#          # Find all necessary built jar files and attach them to the enviornment variable deploy
-#          for name in $(find ./ -name "test-java-project-$VERSION-*.jar")
-#          do
-#            TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
-#            FILES=$FILES,$name
-#            TYPES=$TYPES,${TARGET##*.}
-#            CLASSIFIERS=$CLASSIFIERS,${TARGET%.*}
-#          done
-#          # Find all generated provenance files and attach them the the envionrment variable for deploy
-#          for name in $(find ./ -name "test-java-project-$VERSION-*.jar.intoto.sigstore")
-#          do
-#            TARGET=$(echo $name | rev | cut -d\- -f1 | rev)
-#            FILES=$FILES,$name
-#            TYPES=$TYPES",sigstore"
-#            CLASSIFIERS=$CLASSIFIERS,${TARGET::-9}
-#          done
-#          # Sign and deploy the files to the ossrh remote repository
-#          mvn validate jar:jar -Dfile=target/test-java-project-$VERSION.jar -Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=ossrh -Dfiles=$FILES -Dtypes=$TYPES -Dclassi>
-
+          ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace
