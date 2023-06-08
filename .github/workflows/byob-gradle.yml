@@ -41,10 +41,10 @@ jobs:
         with:
           arguments: build
       - name: Setup gpg signing key
-        if: env.ARTIFACT_SIGNING_KEY
+        if: env.GPG_PRIVATE_KEY
         id: gpg
         env:
-          ARTIFACT_SIGNING_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
         run: |
           echo "Importing key ..."
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
