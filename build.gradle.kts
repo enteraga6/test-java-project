@@ -71,11 +71,11 @@ publishing {
     repositories {
         maven {
             credentials {
-                username = MAVEN_USERNAME
-                password = MAVEN_PASSWORD
+                username = System.getenv('MAVEN_USERNAME')
+                password = System.getenv('MAVEN_PASSWORD')
             }
             name = "test-java-project"
-            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            url = uri('https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/')
         }
     }
 }
