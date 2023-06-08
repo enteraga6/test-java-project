@@ -41,10 +41,21 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - name: Publish to the Maven Central Repository
+      - name: Setup gpg signing key
+        if: env.ARTIFACT_SIGNING_KEY
+        id: gpg
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_KEY_PASS: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          echo "Importing key ..."
+          echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
+          echo "Getting key id ..."
+          key_id="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
+          echo "::set-output name=key_id::${key_id}"
+      - name: Publish to the Maven Central Repository
+        env:
+          GPG_KEYNAME: ${{ steps.gpg.outputs.key_id }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           # Retrieve project version and artifact id
           VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
@@ -57,7 +68,7 @@ jobs:
           touch build/libs/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
           # End of temp creation of *.intoto.sigstore for .jar files
           # Run the gradle publish plugin
-          ./gradlew publish --stacktrace
+          ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace 
 #          # Reset the environment variables add in the base provenance
 #          FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore
 #          TYPES=sigstore
