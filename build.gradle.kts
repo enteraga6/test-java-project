@@ -26,32 +26,44 @@ java {
     withJavadocJar()
 }
 
+signing {
+    sign(publishing.publications["mavenJava"])
+}
+
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            artifactId = 'test-java-project'
-            from components.java
+        create<MavenPublication>("mavenJava") {
+            artifactId = "test-java-project"
+            from(components["java"])
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
             pom {
-                name = 'test-java-project'
-                description = 'Adams test java project'
-                url = 'https://github.com/AdamKorcz/test-java-project'
+                name.set("test-java-project")
+                description.set("Adams test java project")
+                url.set("https://github.com/AdamKorcz/test-java-project")
                 licenses {
                     license {
-                        name = 'MIT License'
-                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                        name.set("MIT License")
+                        url.set("http://www.opensource.org/licenses/mit-license.php")
                     }
                 }
                 developers {
                     developer {
-                        id = 'adam-adalogics-com'
-                        name = 'Adam K'
-                        email = 'Adam@adalogics.com'
+                        id.set("adamkrocz")
+                        name.set("Adam K")
+                        email.set("Adam@adalogics.com")
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/adamkorcz/test-java-project.git'
-                    developerConnection = 'scm:git:ssh://github.com:simpligility/test-java-project.git'
-                    url = 'http://github.com/adamkorcz/test-java-project/tree/main'
+                    connection.set("scm:git:git://github.com/adamkorcz/test-java-project.git")
+                    developerConnection.set("scm:git:ssh://github.com:simpligility/test-java-project.git")
+                    url.set("http://github.com/adamkorcz/test-java-project/tree/main")
                 }
             }
         }
