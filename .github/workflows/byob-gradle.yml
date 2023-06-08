@@ -54,7 +54,7 @@ jobs:
           touch build/libs/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
           # End of temp creation of *.intoto.sigstore for .jar files
           # Run the gradle publish plugin
-          ./gradlew publish
+          ./gradlew publish --stacktrace
 #          # Reset the environment variables add in the base provenance
 #          FILES=slsa-attestations/test-java-project-$VERSION.jar.intoto.sigstore
 #          TYPES=sigstore
