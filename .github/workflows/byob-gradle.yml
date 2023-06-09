@@ -60,4 +60,4 @@ jobs:
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
           GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
           # Add provenance artifacts and run the gradle publish plugin
-         ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace
+          ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace
