@@ -31,15 +31,15 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            artifact (System.getenv("JAVADOC_SIGSTORE")) {
+            artifact (System.getenv("JAVADOC_PROVENANCE")) {
                 classifier = "javadoc"
                 extension = ".jar.intoto.sigstore"
             }
-            artifact (System.getenv("SOURCES_SIGSTORE")) {
+            artifact (System.getenv("SOURCES_PROVENANCE")) {
                 classifier = "sources"
                 extension = ".jar.intoto.sigstore"
             }
-            artifact (System.getenv("BASE_SIGSTORE")) {
+            artifact (System.getenv("BASE_PROVENANCE")) {
                 classifier = ""
                 extension = ".jar.intoto.sigstore"
             }
