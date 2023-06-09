@@ -35,10 +35,10 @@ publishing {
                 classifier = ""
                 extension = "jar.intoto.sigstore"
             }
-            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.intoto.sigstore") {
+            /*artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.intoto.sigstore") {
                 classifier = "sources"
                 extension = "jar.intoto.sigstore"
-            }
+            }*/
             artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-javadoc.jar.intoto.sigstore") {
                 classifier = "javadoc"
                 extension = "jar.intoto.sigstore"
