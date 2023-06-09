@@ -16,7 +16,6 @@ repositories {
     }
 }
 
-name = "test-java-project"
 group = "io.github.adamkorcz"
 version = "0.1.16"
 description = "Adams test java project"
@@ -32,15 +31,15 @@ publishing {
         create<MavenPublication>("provenance") {
             artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.intoto.sigstore") {
                 classifier = ""
-                extension = "jar.intoto.sigstore""
+                extension = "jar.intoto.sigstore"
             }
             artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.intoto.sigstore") {
                 classifier = "sources"
-                extension = "jar.intoto.sigstore""
+                extension = "jar.intoto.sigstore"
             }
             artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-javadoc.jar.intoto.sigstore") {
                 classifier = "javadoc"
-                extension = "jar.intoto.sigstore""
+                extension = "jar.intoto.sigstore"
             }
         }
         create<MavenPublication>("maven") {
