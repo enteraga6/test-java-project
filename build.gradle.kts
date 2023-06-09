@@ -16,6 +16,7 @@ repositories {
     }
 }
 
+name = "test-java-project"
 group = "io.github.adamkorcz"
 version = "0.1.16"
 description = "Adams test java project"
@@ -28,21 +29,23 @@ java {
 
 publishing {
     publications {
+        create<MavenPublication>("provenance") {
+            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.intoto.sigstore") {
+                classifier = ""
+                extension = "jar.intoto.sigstore""
+            }
+            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.intoto.sigstore") {
+                classifier = "sources"
+                extension = "jar.intoto.sigstore""
+            }
+            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-javadoc.jar.intoto.sigstore") {
+                classifier = "javadoc"
+                extension = "jar.intoto.sigstore""
+            }
+        }
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            artifact (System.getenv("JAVADOC_PROVENANCE")) {
-                classifier = "javadoc"
-                extension = ".jar.intoto.sigstore"
-            }
-            artifact (System.getenv("SOURCES_PROVENANCE")) {
-                classifier = "sources"
-                extension = ".jar.intoto.sigstore"
-            }
-            artifact (System.getenv("BASE_PROVENANCE")) {
-                classifier = ""
-                extension = ".jar.intoto.sigstore"
-            }
             versionMapping {
                 usage("java-api") {
                     fromResolutionOf("runtimeClasspath")
@@ -90,5 +93,6 @@ publishing {
 
 signing {
     useGpgCmd()
+    /*sign(file(System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.intoto.sigstore")*/
     sign(publishing.publications["maven"])
 }
