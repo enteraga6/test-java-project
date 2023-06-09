@@ -54,15 +54,15 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          PROVENANCE: 'build/libs/slsa-attestations/*.intoto.sigstore'
         run: |
+          # Retrieve project version and artifact id
+          VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+          ARTIFACTID=$(./gradlew properties -q | grep "rootProject: " | cut -d\' -f2)
           # Import GPG signing key
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
           GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
           # Add provenance artifacts and run the gradle publish plugin
-          for provenance_file in $(ls $PROVENANCE)
-          do
-              sed -i "s#/\*ARTIFACTS\*/#artifact (\"$provenance_file\")\n            /\*ARTIFACTS\*/#g" build.gradle.kts
-          done
-          cat build.gradle.kts
+          export BASE_PROVENANCE=build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore
+          export SOURCES_PROVENANCE=build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
+          export JAVADOC_PROVENANCE=build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
           ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace
