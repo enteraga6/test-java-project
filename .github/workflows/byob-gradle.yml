@@ -54,6 +54,7 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          PROVENANCE: "build/libs/slsa-attestations/"
         run: |
           # Import GPG signing key
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
