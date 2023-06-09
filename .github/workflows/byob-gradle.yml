@@ -62,7 +62,7 @@ jobs:
           # Add provenance artifacts and run the gradle publish plugin
           for provenance_file in $(ls $PROVENANCE)
           do
-            sed -i 's/\/*ARTIFACTS*\//artifact (\'$provenance_file\')\n            \/*ARTIFACTS*\//g' build.gradle.kts
+              sed -i "s#/\*ARTIFACTS\*/#artifact ('$provenance_file')\n            /\*ARTIFACTS\*/#g" abc
           done
           cat build.gradle.kts
           ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace
