@@ -47,9 +47,9 @@ jobs:
           VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
           ARTIFACTID=$(./gradlew properties -q | grep "rootProject: " | cut -d\' -f2)
           mkdir -p build/libs/slsa-attestations
-          touch build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore
-          touch build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
-          touch build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
+          echo "$ARTIFACTID-$VERSION.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore
+          echo "$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
+          echo "$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
       - name: Publish to the Maven Central Repository
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
