@@ -35,10 +35,10 @@ publishing {
                 classifier = ""
                 extension = "jar.intoto.sigstore"
             }
-            /*artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.intoto.sigstore") {
+            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.intoto.sigstore") {
                 classifier = "sources"
                 extension = "jar.intoto.sigstore"
-            }*/
+            }
             artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-javadoc.jar.intoto.sigstore") {
                 classifier = "javadoc"
                 extension = "jar.intoto.sigstore"
@@ -82,6 +82,5 @@ publishing {
 
 signing {
     useGpgCmd()
-    /*sign(file(System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.intoto.sigstore")*/
     sign(publishing.publications["maven"])
 }
