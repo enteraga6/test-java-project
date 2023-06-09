@@ -28,8 +28,9 @@ java {
 
 publishing {
     publications {
-        create<MavenPublication>("provenance") {
+        create<MavenPublication>("maven") {
             artifactId = "test-java-project"
+            from(components["java"])
             artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.intoto.sigstore") {
                 classifier = ""
                 extension = "jar.intoto.sigstore"
@@ -42,33 +43,6 @@ publishing {
                 classifier = "javadoc"
                 extension = "jar.intoto.sigstore"
             }
-            pom {
-                name.set("test-java-project")
-                description.set("Adams test java project")
-                url.set("https://github.com/AdamKorcz/test-java-project")
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("http://www.opensource.org/licenses/mit-license.php")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("adamkrocz")
-                        name.set("Adam K")
-                        email.set("Adam@adalogics.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/adamkorcz/test-java-project.git")
-                    developerConnection.set("scm:git:ssh://github.com:simpligility/test-java-project.git")
-                    url.set("http://github.com/adamkorcz/test-java-project/tree/main")
-                }
-            }
-        }
-        create<MavenPublication>("maven") {
-            artifactId = "test-java-project"
-            from(components["java"])
             pom {
                 name.set("test-java-project")
                 description.set("Adams test java project")
