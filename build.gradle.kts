@@ -31,7 +31,18 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            /*ARTIFACTS*/
+            artifact (System.getenv("JAVADOC_SIGSTORE")) {
+                classifier = "javadoc"
+                extension = ".jar.intoto.sigstore"
+            }
+            artifact (System.getenv("SOURCES_SIGSTORE")) {
+                classifier = "sources"
+                extension = ".jar.intoto.sigstore"
+            }
+            artifact (System.getenv("BASE_SIGSTORE")) {
+                classifier = ""
+                extension = ".jar.intoto.sigstore"
+            }
             versionMapping {
                 usage("java-api") {
                     fromResolutionOf("runtimeClasspath")
