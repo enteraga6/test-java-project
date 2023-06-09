@@ -17,7 +17,7 @@ repositories {
 }
 
 group = "io.github.adamkorcz"
-version = "0.1.16"
+version = "0.1.18"
 description = "Adams test java project"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
