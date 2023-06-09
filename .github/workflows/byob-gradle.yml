@@ -62,7 +62,7 @@ jobs:
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
           GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
           # Add provenance artifacts and run the gradle publish plugin
-          export BASE_PROVENANCE=build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore
-          export SOURCES_PROVENANCE=build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
-          export JAVADOC_PROVENANCE=build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
+          sed -i "s#System.getenv(\"BASE_PROVENANCE\")#\"build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore\"#g" build.gradle.kts
+          sed -i "s#System.getenv(\"SOURCES_PROVENANCE\")#\"build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore\"#g" build.gradle.kts
+          sed -i "s#System.getenv(\"JAVADOC_PROVENANCE\")#\"build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore\"#g" build.gradle.kts
           ./gradlew "-Psigning.gnupg.keyName=${GPG_KEYNAME}" "-Psigning.gnupg.passphrase=${GPG_PASSPHRASE}" publish --stacktrace
