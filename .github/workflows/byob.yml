@@ -22,7 +22,7 @@ jobs:
       id-token: write
       actions: read   # For the entrypoint.
       packages: write
-    uses: AdamKorcz/slsa-github-generator/actions/maven/publish/action.yml@maven2
+    uses: AdamKorcz/slsa-github-generator/.github/workflows/publish_maven.yml@maven2
     with:
       provenance-download-name: "${{ needs.usetrw.outputs.provenance-download-name }}"
       #provenance-download-sha256: "${{ needs.usetrw.outputs.attestations-download-256 }}"
