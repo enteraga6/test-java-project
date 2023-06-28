@@ -26,6 +26,7 @@ jobs:
     with:
       provenance-download-name: "${{ needs.usetrw.outputs.provenance-download-name }}"
       provenance-download-sha256: "${{ needs.usetrw.outputs.provenance-download-sha256 }}"
+      target-download-sha256: "${{ needs.usetrw.outputs.target-download-sha256 }}"
       #provenance-download-sha256: "${{ needs.usetrw.outputs.attestations-download-256 }}"
 #      maven-password: ${{ secrets.OSSRH_PASSWORD }}
 #      gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
