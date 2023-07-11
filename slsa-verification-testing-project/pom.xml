@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>io.github.adamkorcz</groupId>
+   <artifactId>test-slsa-verification-project</artifactId>
+   <version>0.0.1</version>
+   <packaging>jar</packaging>
+   <name>Slsa Verification Testing Project</name>
+   <description>A test project</description>
+   <url>https://github.com/AdamKorcz/test-java-project/slsa-verification-testing-project</url>
+   <properties>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
+   </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.adamkorcz</groupId>
+            <artifactId>test-java-project</artifactId>
+            <version>0.1.19</version>
+        </dependency>
+    </dependencies>
+   <build>
+      <plugins>
+         <plugin>
+             <groupId>io.github.adamkorcz</groupId>
+             <artifactId>slsa-verification-plugin</artifactId>
+             <version>0.0.1</version>
+             <executions>
+                 <execution>
+                     <goals>
+                         <goal>verify</goal>
+                     </goals>
+                 </execution>
+             </executions>
+         </plugin>
+      </plugins>
+   </build>
+</project>
