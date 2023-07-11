@@ -71,7 +71,6 @@ public class SlsaVerificationMojo extends AbstractMojo {
         for (Artifact artifact : dependencyArtifacts ) {
             // Retrieve the dependency jar and its slsa file
             String artifactStr = artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getVersion();
-            System.out.println(artifactStr);
             try {
                 executeMojo(
                     plugin(
