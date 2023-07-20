@@ -1,3 +1,17 @@
+// Copyright 2023 SLSA Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package io.github.adamkorcz;
 
 import org.apache.maven.artifact.Artifact;
@@ -17,16 +31,25 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 import java.io.File;
 import java.util.Set;
 
-/**
- * Resolve all dependencies defined in the pom.xml, from the default or specified remote repositories.
- * Each of the defined dependency artifacts that have slsa provenance provided is then verified by
- * slsa-verifier. All other dependency artifacts without slsa provenance file are skipped. Caveat:
- * will always check the central repository defined in the super pom first. You could use a mirror
- * entry in your <code>settings.xml</code>. This plugin execute in the VALIDATE phase of the build
- * and print the slsa verification result. It will never fail the build process. Remark: This plugin
- * requires golang installation for slsa verification process. Otherwise, the execution of this plugin
- * will be skipped.
- */
+/*
+ SlsaVerificationMojo is a Maven plugin that wraps https://github.com/slsa-framework/slsa-verifier.
+ At a high level, it does the following:
+   1: Install the slsa-verifier.
+   2: Loop through all dependencies of a pom.xml. Resolve each dependency.
+   3: Check if each dependency also has a provenance file.
+   4: Run the slsa-verifier for the dependency if there is a provenance file.
+   5: Output the results.
+
+ The plugin is meant to be installed and then run from the root of a given project file.
+ A pseudo-workflow looks like this:
+   1: git clone --depth=1 https://github.com/slsa-framework/slsa-github-generator
+   2: cd slsa-github-generator/internal/builders/maven/plugins/verification-plugin
+   3: mvn clean install
+   4: cd /tmp
+   5: git clone your repository
+   6: cd into your repository
+   7: mvn io.github.adamkorcz:slsa-verification-plugin:0.0.1:verify
+*/
 @Mojo(name = "verify", defaultPhase = LifecyclePhase.VALIDATE)
 public class SlsaVerificationMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
@@ -34,7 +57,7 @@ public class SlsaVerificationMojo extends AbstractMojo {
 
     /**
       * Custom path of GOHOME, default value is $HOME/go
-      */
+    **/
     @Parameter(property = "slsa.gohome")
     private String gohome;
 
@@ -52,30 +75,6 @@ public class SlsaVerificationMojo extends AbstractMojo {
         }
         if (!(new File(gohome + "/bin")).exists()) {
             getLog().info("Skipping slsa verification: Golang not installed or GOHOME not set properly.");
-            return;
-        }
-
-        // Install slsa verifier with go
-        try {
-            executeMojo(
-                plugin(
-                    groupId("org.codehaus.mojo"),
-                    artifactId("exec-maven-plugin"),
-                    version("3.1.0")
-                ),
-                goal("exec"),
-                configuration(
-                    element(name("executable"), "go"),
-                    element(name("commandlineArgs"), "install github.com/slsa-framework/slsa-verifier/v2/cli/slsa-verifier@latest")
-                ),
-                executionEnvironment(
-                    project,
-                    mavenSession,
-                    pluginManager
-                )
-            );
-        } catch(MojoExecutionException e) {
-            getLog().info("Skipping slsa verification: Fail to retrieve slsa-verifier.");
             return;
         }
 
@@ -136,7 +135,7 @@ public class SlsaVerificationMojo extends AbstractMojo {
                 // Run slsa verification on the artifact and print the result
                 // It will never fail the build process
                 String arguments = "verify-artifact --provenance-path ";
-                arguments += "${project.build.directory}/slsa/" + artifact.getArtifactId() + "-" + artifact.getVersion() + "-jar.intoto.build.slsa ";
+                arguments += "${project.build.directory}/slsa/" + artifact.getArtifactId() + "-" + artifact.getVersion() + "-jar.build.slsa ";
                 arguments += " --source-uri ./ ${project.build.directory}/slsa/" + artifact.getArtifactId() + "-" + artifact.getVersion() + ".jar";
                 executeMojo(
                     plugin(
@@ -157,7 +156,7 @@ public class SlsaVerificationMojo extends AbstractMojo {
                     )
                 );
             } catch(MojoExecutionException e) {
-                // TODO: modify the failing and exception handling once the slsa verifier is working properly.
+                // TODO: Properly interpret the output based on the verification plugin.
                 getLog().info("Skipping slsa verification: Fail to run slsa verifier.");
                 return;
             }
