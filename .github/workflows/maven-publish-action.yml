@@ -1,0 +1,36 @@
+name: Create SLSA File 2.0
+on:
+  - workflow_dispatch
+
+permissions: read-all
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  ISSUE_REPOSITORY: ${{ github.repository }}
+jobs:
+  usetrw:
+    permissions:
+      contents: write
+      id-token: write
+      actions: read   # For the entrypoint.
+      packages: write
+    uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven2
+    with:
+      rekor-log-public: true
+  publish:
+    needs: usetrw
+    permissions:
+      contents: write
+      id-token: write
+      actions: read   # For the entrypoint.
+    id: publish
+    uses: slsa-framework/slsa-github-generator/actions/maven/publish/action.yml@maven-publisher-to-action
+    with:
+      provenance-download-name: "${{ needs.usetrw.outputs.provenance-download-name }}"
+      provenance-download-sha256: "${{ needs.usetrw.outputs.provenance-download-sha256 }}"
+      target-download-sha256: "${{ needs.usetrw.outputs.target-download-sha256 }}"
+    secrets:
+      maven-username: ${{ secrets.OSSRH_USERNAME }}
+      maven-password: ${{ secrets.OSSRH_PASSWORD }}
+      gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
+      gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
