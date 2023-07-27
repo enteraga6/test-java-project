@@ -27,7 +27,8 @@ jobs:
     steps:
       - name: publish
         id: publish
-        uses: AdamKorcz/slsa-github-generator/actions/maven/publish@maven-publisher-to-action
+        #uses: AdamKorcz/slsa-github-generator/actions/maven/publish@maven-publisher-to-action
+        uses: AdamKorcz/slsa-github-generator/actions/maven/publish@nnnnnnnnn
         with:
           provenance-download-name: "${{ needs.usetrw.outputs.provenance-download-name }}"
           provenance-download-sha256: "${{ needs.usetrw.outputs.provenance-download-sha256 }}"
