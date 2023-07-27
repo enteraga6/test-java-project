@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: publish
         id: publish
-        #uses: AdamKorcz/slsa-github-generator/actions/gradle/publish@make-gradle-publisher-an-action
+        uses: AdamKorcz/slsa-github-generator/actions/gradle/publish@make-gradle-publisher-an-action
         with:
           provenance-download-name: "${{ needs.usetrw.outputs.provenance-download-name }}"
           provenance-download-sha256: "${{ needs.usetrw.outputs.provenance-download-sha256 }}"
