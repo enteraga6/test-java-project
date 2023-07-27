@@ -17,6 +17,7 @@ jobs:
     uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_gradle_slsa3.yml@make-gradle-publisher-an-action
     with:
       rekor-log-public: true
+      artifact-list: build/libs/test-java-project-0.1.18.jar,build/libs/test-java-project-0.1.18-javadoc.jar,build/libs//test-java-project-0.1.18-sources.jar
   publish:
     runs-on: ubuntu-latest
     needs: usetrw
