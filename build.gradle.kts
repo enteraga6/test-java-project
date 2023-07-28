@@ -40,7 +40,7 @@ publishing {
                     counter++
                     var path = it.getName()
                     val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
-                    if (name.length != 2) {
+                    if (name.size != 2) {
                         throw StopExecutionException("Found incorrect file name: " + path)
                     }
                     var cls = name[0]
