@@ -31,14 +31,23 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            if (System.getenv("FILE_LIST") != null) {
-                val strs = System.getenv("FILE_LIST").split(",").toTypedArray()
-                for (str in strs) {
-                    val item = str.split(":").toTypedArray()
-                    artifact (item[0]) {
-                        classifier = item[1]
-                        extension = item[2]
-                    }
+            val base_dir = "build/libs/slsa-attestations/"
+            val strs = System.getenv("FILE_LIST").split(",").toTypedArray()
+            for (str in strs) {
+                var path = str.replace("PROJECT_NAME", project.name)
+                path = path.replace("PROJECT_VERSION", project.version)
+                val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
+                var classifier = name[0]
+                val extensioni = name[1]
+                if (classifier.startsWith("-")) {
+                    classifier = classifier.substring(1)
+                }
+                println(base_dir + path)
+                println(classifier)
+                println(extensioni)
+                artifact (base_dir + path) {
+                    classifier = classifier
+                    extension = extension
                 }
             }
             pom {
