@@ -37,6 +37,7 @@ jobs:
           maven-password: ${{ secrets.OSSRH_PASSWORD }}
           gpg-key-pass: ${{ secrets.GPG_PASSPHRASE }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          jdk-version: "17"
 #        secrets:
 #          maven-username: ${{ secrets.OSSRH_USERNAME }}
 #          maven-password: ${{ secrets.OSSRH_PASSWORD }}
