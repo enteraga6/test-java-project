@@ -53,6 +53,7 @@ jobs:
           echo "$ARTIFACTID-$VERSION.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore
           echo "$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
           echo "$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
+          ls build/libs/slsa-attestations
           # Import GPG signing key
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
           GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
