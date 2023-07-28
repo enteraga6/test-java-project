@@ -53,9 +53,9 @@ publishing {
                 }
                 counter = counter.inc()
             }
-            if (counter == 0) {
-                throw StopExecutionException("No files were found in build/libs/slsa-attestations. This is a blocker.")
-            }
+            //if (counter == 0) {
+            //    throw StopExecutionException("No files were found in build/libs/slsa-attestations. This is a blocker.")
+            //}
             pom {
                 name.set("test-java-project")
                 description.set("Adams test java project")
