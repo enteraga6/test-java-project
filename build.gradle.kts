@@ -37,7 +37,7 @@ publishing {
             var counter = 0
             File(base_dir).walkTopDown().forEach {
                 if (it.isFile()) {
-                    counter++
+                    counter = counter.inc()
                     var path = it.getName()
                     val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
                     if (name.size != 2) {
