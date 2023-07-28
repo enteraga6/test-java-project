@@ -35,7 +35,7 @@ publishing {
             val strs = System.getenv("FILE_LIST").split(",").toTypedArray()
             for (str in strs) {
                 var path = str.replace("PROJECT_NAME", project.name)
-                path = path.replace("PROJECT_VERSION", project.version)
+                path = path.replace("PROJECT_VERSION", project.version + "")
                 val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
                 var classifier = name[0]
                 val extensioni = name[1]
