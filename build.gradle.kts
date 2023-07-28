@@ -31,17 +31,17 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.intoto.sigstore") {
+            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.build.slsa") {
                 classifier = ""
-                extension = "jar.intoto.sigstore"
+                extension = "jar.build.slsa"
             }
-            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.intoto.sigstore") {
+            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.build.slsa") {
                 classifier = "sources"
-                extension = "jar.intoto.sigstore"
+                extension = "jar.build.slsa"
             }
-            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-javadoc.jar.intoto.sigstore") {
+            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-javadoc.jar.build.slsa") {
                 classifier = "javadoc"
-                extension = "jar.intoto.sigstore"
+                extension = "jar.build.slsa"
             }
             pom {
                 name.set("test-java-project")
