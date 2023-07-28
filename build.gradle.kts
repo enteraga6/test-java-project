@@ -31,17 +31,15 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + ".jar.build.slsa") {
-                classifier = ""
-                extension = "jar.build.slsa"
-            }
-            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-sources.jar.build.slsa") {
-                classifier = "sources"
-                extension = "jar.build.slsa"
-            }
-            artifact (System.getenv("PROVENANCE") + project.name + "-" + project.version + "-javadoc.jar.build.slsa") {
-                classifier = "javadoc"
-                extension = "jar.build.slsa"
+            if (System.getenv("FILE_LIST") != null) {
+                val strs = System.getenv("FILE_LIST").split(",").toTypedArray()
+                for (str in strs) {
+                    val item = str.split(":").toTypedArray()
+                    artifact (item[0]) {
+                        classifier = item[1]
+                        extension = item[2]
+                    }
+                }
             }
             pom {
                 name.set("test-java-project")
