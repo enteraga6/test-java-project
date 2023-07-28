@@ -36,24 +36,21 @@ publishing {
             val base_dir = "build/libs/slsa-attestations/"
             var counter = 0
             File(base_dir).walkTopDown().forEach {
-                var target = File(it)
-                if (target.isFile()) {
-                    counter = counter.inc()
-                    var path = target.getName()
-                    val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
-                    if (name.size != 2) {
-                        throw StopExecutionException("Found incorrect file name: " + path)
-                    }
-                    var cls = name[0]
-                    var ext = name[1]
-                    if (cls.startsWith("-")) {
-                        cls = cls.substring(1)
-                    }
-                    artifact (base_dir + path) {
-                        classifier = cls
-                        extension = ext
-                    }
+                var path = it.getName()
+                val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
+                if (name.size != 2) {
+                    throw StopExecutionException("Found incorrect file name: " + path)
                 }
+                var cls = name[0]
+                var ext = name[1]
+                if (cls.startsWith("-")) {
+                    cls = cls.substring(1)
+                }
+                artifact (base_dir + path) {
+                    classifier = cls
+                    extension = ext
+                }
+                counter = counter.inc()
             }
             if (counter == 0) {
                 throw StopExecutionException("No files were found in build/libs/slsa-attestations. This is a blocker.")
