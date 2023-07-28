@@ -38,14 +38,14 @@ publishing {
                     var path = str.replace("PROJECT_NAME", project.name)
                     path = path.replace("PROJECT_VERSION", "${project.version}")
                     val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
-                    var classifier = name[0]
-                    val extension = name[1]
-                    if (classifier.startsWith("-")) {
-                        classifier = classifier.substring(1)
+                    var cls = name[0]
+                    var ext = name[1]
+                    if (cls.startsWith("-")) {
+                        cls = cls.substring(1)
                     }
                     artifact (base_dir + path) {
-                        classifier = classifier
-                        extension = extension
+                        classifier = cls
+                        extension = ext
                     }
                 }
             }
