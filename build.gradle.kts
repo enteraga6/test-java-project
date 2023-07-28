@@ -33,7 +33,7 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            val base_dir = "build/libs/slsa-attestations/"
+            val base_dir = "build/libs/slsa-attestations"
             var counter = 0
             File(base_dir).walkTopDown().forEach {
                 throw StopExecutionException("Hello")
@@ -47,7 +47,7 @@ publishing {
                 if (cls.startsWith("-")) {
                     cls = cls.substring(1)
                 }
-                artifact (base_dir + path) {
+                artifact (base_dir + "/" + path) {
                     classifier = cls
                     extension = ext
                 }
