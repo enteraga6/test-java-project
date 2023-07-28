@@ -36,6 +36,7 @@ publishing {
             val base_dir = "build/libs/slsa-attestations/"
             var counter = 0
             File(base_dir).walkTopDown().forEach {
+                throw StopExecutionException("Hello")
                 var path = it.getName()
                 val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
                 if (name.size != 2) {
