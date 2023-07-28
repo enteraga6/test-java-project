@@ -36,9 +36,10 @@ publishing {
             val base_dir = "build/libs/slsa-attestations/"
             var counter = 0
             File(base_dir).walkTopDown().forEach {
-                if (it.isFile()) {
+                var target = File(it)
+                if (target.isFile()) {
                     counter = counter.inc()
-                    var path = it.getName()
+                    var path = target.getName()
                     val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
                     if (name.size != 2) {
                         throw StopExecutionException("Found incorrect file name: " + path)
