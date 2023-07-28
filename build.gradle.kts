@@ -6,7 +6,7 @@ plugins {
     `java-library`
     `maven-publish`
     `signing`
-    id("jarfile-hash-plugin") version "0.0.1"
+    /*id("jarfile-hash-plugin") version "0.0.1"*/
 }
 
 repositories {
