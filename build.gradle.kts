@@ -31,6 +31,9 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
+            if (System.getenv("FILE_LIST").isNullOrEmpty()) {
+                throw StopExecutionException("Environment variable FILE_LIST is null.")
+            }
             val base_dir = "build/libs/slsa-attestations/"
             val strs = System.getenv("FILE_LIST").split(",").toTypedArray()
             for (str in strs) {
