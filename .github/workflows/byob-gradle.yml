@@ -54,7 +54,7 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          FILE_LIST: "test-java-project-0.1.18.jar.intoto.sigstore,test-java-project-0.1.18-javadoc.jar.intoto.sigstore,test-java-project-0.1.18-sources.jar.intoto.sigstore"
+          FILE_LIST: "PROJECT_NAME-PROJECT_VERSION.jar.intoto.sigstore,PROJECT_NAME-PROJECT_VERSION-javadoc.jar.intoto.sigstore,PROJECT_NAME-PROJECT_VERSION-sources.jar.intoto.sigstore"
         run: |
           # Import GPG signing key
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
