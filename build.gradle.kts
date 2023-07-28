@@ -34,10 +34,15 @@ publishing {
             artifactId = "test-java-project"
             from(components["java"])
             val base_dir = "build/libs/slsa-attestations/"
+            var counter = 0
             File(base_dir).walkTopDown().forEach {
                 if (it.isFile()) {
+                    counter++
                     var path = it.getName()
                     val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
+                    if (name.length != 2) {
+                        throw StopExecutionException("Found incorrect file name: " + path)
+                    }
                     var cls = name[0]
                     var ext = name[1]
                     if (cls.startsWith("-")) {
@@ -48,6 +53,9 @@ publishing {
                         extension = ext
                     }
                 }
+            }
+            if (counter == 0) {
+                throw StopExecutionException("No files were found in build/libs/slsa-attestations. This is a blocker.")
             }
             pom {
                 name.set("test-java-project")
