@@ -39,13 +39,10 @@ publishing {
                     path = path.replace("PROJECT_VERSION", "${project.version}")
                     val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
                     var classifier = name[0]
-                    val extensioni = name[1]
+                    val extension = name[1]
                     if (classifier.startsWith("-")) {
                         classifier = classifier.substring(1)
                     }
-                    println(base_dir + path)
-                    println(classifier)
-                    println(extensioni)
                     artifact (base_dir + path) {
                         classifier = classifier
                         extension = extension
