@@ -40,8 +40,11 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build
-      - name: Temp creation of *.intoto.sigstore for .jar files
+          arguments: build    
+      - name: Publish to the Maven Central Repository
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           # Retrieve project version and artifact id
           VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
@@ -50,11 +53,6 @@ jobs:
           echo "$ARTIFACTID-$VERSION.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION.jar.intoto.sigstore
           echo "$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION-sources.jar.intoto.sigstore
           echo "$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore" > build/libs/slsa-attestations/$ARTIFACTID-$VERSION-javadoc.jar.intoto.sigstore
-      - name: Publish to the Maven Central Repository
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: |
           # Import GPG signing key
           echo "${GPG_PRIVATE_KEY}" | gpg --batch --import --import-options import-show
           GPG_KEYNAME="$(echo "${GPG_PRIVATE_KEY}" | gpg --batch --show-keys --with-colons | awk -F: '$1 == "sec" { print $5 }')"
