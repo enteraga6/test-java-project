@@ -31,26 +31,25 @@ publishing {
         create<MavenPublication>("maven") {
             artifactId = "test-java-project"
             from(components["java"])
-            if (System.getenv("FILE_LIST").isNullOrEmpty()) {
-                throw StopExecutionException("Environment variable FILE_LIST is null.")
-            }
-            val base_dir = "build/libs/slsa-attestations/"
-            val strs = System.getenv("FILE_LIST").split(",").toTypedArray()
-            for (str in strs) {
-                var path = str.replace("PROJECT_NAME", project.name)
-                path = path.replace("PROJECT_VERSION", "${project.version}")
-                val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
-                var classifier = name[0]
-                val extensioni = name[1]
-                if (classifier.startsWith("-")) {
-                    classifier = classifier.substring(1)
-                }
-                println(base_dir + path)
-                println(classifier)
-                println(extensioni)
-                artifact (base_dir + path) {
-                    classifier = classifier
-                    extension = extension
+            if (!System.getenv("FILE_LIST").isNullOrEmpty()) {
+                val base_dir = "build/libs/slsa-attestations/"
+                val strs = System.getenv("FILE_LIST").split(",").toTypedArray()
+                for (str in strs) {
+                    var path = str.replace("PROJECT_NAME", project.name)
+                    path = path.replace("PROJECT_VERSION", "${project.version}")
+                    val name = path.replace(project.name + "-" + project.version, "").split(".", limit=2)
+                    var classifier = name[0]
+                    val extensioni = name[1]
+                    if (classifier.startsWith("-")) {
+                        classifier = classifier.substring(1)
+                    }
+                    println(base_dir + path)
+                    println(classifier)
+                    println(extensioni)
+                    artifact (base_dir + path) {
+                        classifier = classifier
+                        extension = extension
+                    }
                 }
             }
             pom {
