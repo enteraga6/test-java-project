@@ -23,7 +23,7 @@ jobs:
     needs: usetrw
     permissions:
       contents: read
-      id-token: read
+      id-token: write
       actions: read
     steps:
       - name: publish
