@@ -144,8 +144,8 @@
           </executions>
          </plugin>         
          <plugin>
-             <groupId>io.github.adamkorcz</groupId>
-             <artifactId>slsa-hashing-plugin</artifactId>
+             <groupId>io.github.slsaframework</groupId>
+             <artifactId>hash-maven-plugin</artifactId>
              <version>0.0.1</version>
              <executions>
                  <execution>
