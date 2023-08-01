@@ -14,7 +14,7 @@ jobs:
       id-token: write
       actions: read   # For the entrypoint.
       packages: write
-    uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven-publisher-to-action
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@main
     with:
       rekor-log-public: true
   publish:
@@ -28,7 +28,7 @@ jobs:
       - name: publish
         id: publish
         #uses: AdamKorcz/slsa-github-generator/actions/maven/publish@maven-publisher-to-action
-        uses: AdamKorcz/slsa-github-generator/actions/maven/publish@maven-publisher-to-action
+        uses: slsa-framework/slsa-github-generator/actions/maven/publish@main
         with:
           provenance-download-name: "${{ needs.usetrw.outputs.provenance-download-name }}"
           provenance-download-sha256: "${{ needs.usetrw.outputs.provenance-download-sha256 }}"
