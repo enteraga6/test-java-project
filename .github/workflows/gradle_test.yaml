@@ -10,6 +10,7 @@ jobs:
       id-token: write
       contents: read
       actions: read
+      packages: write
     uses: slsa-framework/slsa-github-generator/.github/workflows/builder_gradle_slsa3.yml@v1.7.0
     with:
       artifact-list: |
