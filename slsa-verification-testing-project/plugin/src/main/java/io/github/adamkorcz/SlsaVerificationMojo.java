@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package io.github.adamkorcz;
+package io.github.slsaframework;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
@@ -42,13 +42,13 @@ import java.util.Set;
 
  The plugin is meant to be installed and then run from the root of a given project file.
  A pseudo-workflow looks like this:
-   1: git clone --depth=1 https://github.com/slsa-framework/slsa-github-generator
-   2: cd slsa-github-generator/internal/builders/maven/plugins/verification-plugin
+   1: git clone --depth=1 https://github.com/slsa-framework/slsa-verifier
+   2: cd slsa-verifier/experimental/maven-plugin
    3: mvn clean install
    4: cd /tmp
    5: git clone your repository
    6: cd into your repository
-   7: mvn io.github.adamkorcz:slsa-verification-plugin:0.0.1:verify
+   7: mvn io.github.slsa-framework:slsa-verification-plugin:0.0.1:verify
 */
 @Mojo(name = "verify", defaultPhase = LifecyclePhase.VALIDATE)
 public class SlsaVerificationMojo extends AbstractMojo {
@@ -125,6 +125,7 @@ public class SlsaVerificationMojo extends AbstractMojo {
             try {
                 // Run slsa verification on the artifact and print the result
                 // It will never fail the build process
+                // This might be prone to command-injections. TODO: Secure against that. 
                 String arguments = "verify-artifact --provenance-path ";
                 arguments += "${project.build.directory}/slsa/" + artifact.getArtifactId() + "-" + artifact.getVersion() + "-jar.intoto.build.slsa ";
                 arguments += " --source-uri ./ ${project.build.directory}/slsa/" + artifact.getArtifactId() + "-" + artifact.getVersion() + ".jar";
