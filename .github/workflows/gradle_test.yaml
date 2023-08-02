@@ -1,0 +1,16 @@
+name: SLSA Provenance with Gradle builder
+on:
+  - workflow_dispatch
+
+permissions: read-all
+
+jobs:
+  build:
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_gradle_slsa3.yml@v1.7.0
+    with:
+      artifact-list: |
+        ./target/gs-maven-PROJECT_VERSION.jar
