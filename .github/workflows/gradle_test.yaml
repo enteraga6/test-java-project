@@ -14,4 +14,4 @@ jobs:
     uses: slsa-framework/slsa-github-generator/.github/workflows/builder_gradle_slsa3.yml@v1.7.0
     with:
       artifact-list: |
-        ./target/gs-maven-PROJECT_VERSION.jar
+        ./target/gs-GRADLE_VERSION.jar
