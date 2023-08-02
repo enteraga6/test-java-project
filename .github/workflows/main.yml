@@ -15,7 +15,7 @@ jobs:
       id-token: write
       actions: read   # For the entrypoint.
       packages: write
-    uses: AdamKorcz/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@maven-builder
+    uses: slsa-framework/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@v1.7.0
     with:
       rekor-log-public: true
       artifact-list: |
